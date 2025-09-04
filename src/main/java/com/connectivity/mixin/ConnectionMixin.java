@@ -2,13 +2,12 @@ package com.connectivity.mixin;
 
 import com.connectivity.Connectivity;
 import com.connectivity.logging.PacketLogging;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.Connection;
 import net.minecraft.network.DisconnectionDetails;
 import net.minecraft.network.PacketListener;
-import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -153,13 +152,13 @@ public abstract class ConnectionMixin
     private Packet<?> lastPacket = null;
 
     @Inject(method = "doSendPacket", at = @At("HEAD"))
-    private void onSend(final Packet<?> p_243260_, final PacketSendListener p_243290_, final boolean p_294125_, final CallbackInfo ci)
+    private void onSend(final Packet<?> p_243260_, final ChannelFutureListener p_243290_, final boolean p_294125_, final CallbackInfo ci)
     {
         lastPacket = p_243260_;
     }
 
     @Inject(method = "doSendPacket", at = @At("RETURN"))
-    private void afterSend(final Packet<?> p_243260_, final PacketSendListener p_243290_, final boolean p_294125_, final CallbackInfo ci)
+    private void afterSend(final Packet<?> p_243260_, final ChannelFutureListener p_243290_, final boolean p_294125_, final CallbackInfo ci)
     {
         lastPacket = null;
     }

@@ -1,10 +1,10 @@
 package com.connectivity.command;
 
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Interface for commands requiring OP rights to execute.
@@ -23,7 +23,7 @@ public interface IMCOPCommand extends IMCCommand
         }
 
         final Entity sender = context.getSource().getEntity();
-        if (!(sender instanceof LocalPlayer player))
+        if (!(sender instanceof Player player))
         {
             return false;
         }
