@@ -13,7 +13,11 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,5 +56,12 @@ public class Connectivity implements ModInitializer, ClientModInitializer
     public void onInitializeClient()
     {
         ClientTickEvents.START_CLIENT_TICK.register(ClientEventHandler::onClientTick);
+    }
+
+    public static void sendMessage(Player player, Component message) {
+        if (player.level().isClientSide()) player.displayClientMessage(message, false);
+        else {
+            ((ServerPlayer) player).sendSystemMessage(message);
+        }
     }
 }

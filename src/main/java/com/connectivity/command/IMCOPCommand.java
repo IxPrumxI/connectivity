@@ -1,8 +1,10 @@
 package com.connectivity.command;
 
+import com.connectivity.Connectivity;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
@@ -30,7 +32,7 @@ public interface IMCOPCommand extends IMCCommand
 
         if (!IMCCommand.isPlayerOped(player))
         {
-            player.displayClientMessage(Component.literal("You need to be OP for this command."), false);
+            Connectivity.sendMessage(player, Component.literal("You need to be OP for this command."));
             return false;
         }
         return true;
