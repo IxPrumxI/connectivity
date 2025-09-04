@@ -1,10 +1,10 @@
 package com.connectivity.command;
 
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 
 /**
  * Interface for commands requiring OP rights to execute.
@@ -23,14 +23,14 @@ public interface IMCOPCommand extends IMCCommand
         }
 
         final Entity sender = context.getSource().getEntity();
-        if (!(sender instanceof Player))
+        if (!(sender instanceof LocalPlayer player))
         {
             return false;
         }
 
-        if (!IMCCommand.isPlayerOped((Player) sender))
+        if (!IMCCommand.isPlayerOped(player))
         {
-            sender.sendSystemMessage(Component.literal("You need to be OP for this command."));
+            player.displayClientMessage(Component.literal("You need to be OP for this command."), false);
             return false;
         }
         return true;

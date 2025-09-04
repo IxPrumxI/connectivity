@@ -44,10 +44,4 @@ public class ClientPacketListenerMixin
     {
         ClientEventHandler.on(string);
     }
-
-    @Inject(method = "sendUnsignedCommand", at = @At("HEAD"))
-    private void onSendCommand(final String command, final CallbackInfoReturnable<Boolean> cir)
-    {
-        ClientEventHandler.on(command);
-    }
 }

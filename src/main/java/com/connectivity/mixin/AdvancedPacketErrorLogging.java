@@ -4,6 +4,7 @@ import com.connectivity.Connectivity;
 import com.connectivity.logging.PacketLogging;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.protocol.Packet;
@@ -20,11 +21,11 @@ import java.nio.channels.ClosedChannelException;
 @Mixin(value = Connection.class, priority = 5)
 public abstract class AdvancedPacketErrorLogging
 {
-    @WrapOperation(method = "send(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/Connection;sendPacket(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;Z)V"), require = 0)
+    @WrapOperation(method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/Connection;sendPacket(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;Z)V"), require = 0)
     private void connectivity$logErrorFor(
       final Connection instance,
       final Packet<?> packet,
-      final @Nullable PacketSendListener listener,
+      final @Nullable ChannelFutureListener listener,
       final boolean bool,
       final Operation<Void> original)
     {
@@ -32,7 +33,7 @@ public abstract class AdvancedPacketErrorLogging
     }
 
     @Unique
-    private void connectivity$wrapSend(final Connection instance, final Packet<?> packet, final PacketSendListener listener, final boolean bool, final Operation<Void> original)
+    private void connectivity$wrapSend(final Connection instance, final Packet<?> packet, final ChannelFutureListener listener, final boolean bool, final Operation<Void> original)
     {
         try
         {

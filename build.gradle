@@ -2,6 +2,7 @@ plugins {
     id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '7.1.2' apply false
+    id 'idea'
 }
 
 var ENV = System.getenv()
@@ -36,7 +37,7 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation("curse.maven:cupboard-326652:5477517")
+    modImplementation("curse.maven:cupboard-326652:6836467")
 
 }
 
